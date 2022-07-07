@@ -7,7 +7,7 @@ import EggLeftUpper from './components/EggLeftUpper';
 import EggLeftLower from './components/EggLeftLower';
 import EggRightUpper from './components/EggRightUpper';
 import EggRightLower from './components/EggRightLower';
-import useGameState, { Board } from './utils/gameLogic';
+import useField from './utils/gameLogic';
 
 
 const StyledBoard = styled.div`
@@ -20,18 +20,11 @@ const StyledBoard = styled.div`
 `
 
 function App() {
+  const [slopeLeftUpperPos] = useField()
 
-  const [eggLeftUpperPos, wolfPos] = useGameState()
-
-  
+  console.log(slopeLeftUpperPos)
   return (
     <StyledBoard>
-      <EggLeftUpper  sprite={eggLeftUpperPos} />
-      <EggLeftLower  sprite={0} />
-      <EggRightUpper sprite={0} />
-      <EggRightLower sprite={3} />
-
-      <Wolf sprite={wolfPos} /> 
       <Background />
     </StyledBoard>
   );
