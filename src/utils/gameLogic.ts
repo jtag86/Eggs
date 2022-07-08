@@ -5,6 +5,7 @@ import { Slope } from '../models/Slope'
 
 const useField = () => {
   const [field] = useState(new Field())
+  console.log("new field")
   const [slopes, setSlopes] = useState<Slope[]>()
 
   useEffect(() => {

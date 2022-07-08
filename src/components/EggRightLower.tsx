@@ -55,9 +55,8 @@ const EggLeftUpper: React.FC<Props> = ({sprite}) => {
           case 0: return <Egg1 src={egg} />
           case 1: return <Egg2 src={egg} />
           case 2: return <Egg3 src={egg} />
-          case 3: return <Egg3 src={egg} />
-          case 4: return <Egg4 src={egg} />
-          case 5: return <Egg5 src={egg} />
+          case 3: return <Egg4 src={egg} />
+          case 4: return <Egg5 src={egg} />
         }
       })()}
     </>

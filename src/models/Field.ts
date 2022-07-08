@@ -17,7 +17,8 @@ export class Field {
     this.iter = 0
     this.slopes = []
     this.slopes[0] = new Slope()
-    this.slopes[1] = new Slope()
+    this.moveAllSlopes()
+    // this.slopes[1] = new Slope()
     // this.slopes[2] = new Slope()
     // this.slopes[3] = new Slope()
     this.wolfPos = 0
@@ -27,31 +28,17 @@ export class Field {
   }
   
   shuffle() {
-    // const rand = Math.floor(Math.random() * 4)
-    // switch(rand) {
-    //   case 0: 
-    //     this.fsm.setState(this.slopes[0].moveAllEggs)
-    //     return
-    //   case 1: 
-    //     this.fsm.setState(this.slopes[1].moveAllEggs)
-    //     return
-    //   case 2: 
-    //     this.fsm.setState(this.slopes[2].moveAllEggs)
-    //     return
-    //   case 3: 
-    //     this.fsm.setState(this.slopes[3].moveAllEggs)
-    //     return
-    // }
   }
 
   moveAllSlopes() {
-    this.slopes[this.slopeNum].moveAllEggs()
-    if(this.slopeNum==3) this.slopeNum = 0
+    // this.slopes[0].moveAllEggs()
+    // if(this.slopeNum==3) this.slopeNum = 0
+    this.slopes[0].eggs[0].pos+=1
+    console.log(this.slopes[0])
   }
 
   update(useStatesUpdate: Function) {
     setInterval(() => {
-      this.moveAllSlopes()
       this.fsm.update()
       useStatesUpdate()
       this.iter+=1;
