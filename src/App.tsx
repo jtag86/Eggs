@@ -20,9 +20,9 @@ const StyledBoard = styled.div`
 `
 
 function App() {
-  const [slopeLeftUpperPos] = useField()
+  const [field, slopes] = useField()
 
-  console.log(slopeLeftUpperPos)
+  // console.log(slopes)
   return (
     <StyledBoard>
       <Background />
