@@ -43,10 +43,9 @@ function App() {
   const [slope4, setSlope4] = useState<number[]>([])
   const [score, setScore] = useState(0)
   const [wolfPos, setWolfPos] = useState(0)
-
+  console.log("update")
 
   useEffect(() => { //запуск игры
-    play()
     setDelay(300)
     document.addEventListener("keydown", listeners);
     return () => document.removeEventListener("keydown", listeners);
@@ -55,14 +54,15 @@ function App() {
   useInterval(tick, delay)  //обновление игрового поля
 
   function play() {
-    // setSlope1(oldArray => [...oldArray, eggPos])
-    // setSlope2(oldArray => [...oldArray, eggPos])
-    // setSlope3(oldArray => [...oldArray, eggPos])
-    // setSlope4(oldArray => [...oldArray, eggPos])
+    setSlope1(oldArray => [...oldArray, eggPos])
+    setSlope2(oldArray => [...oldArray, eggPos])
+    setSlope3(oldArray => [...oldArray, eggPos])
+    setSlope4(oldArray => [...oldArray, eggPos])
   }
 
   function tick() {
     shuffle()
+    addScore()
     removeEgg()
     speed()
     setScore(score => score+=1)
@@ -81,18 +81,28 @@ function App() {
         setSlope4(slope => slope.map(eggPos => eggPos+=1))
         return
     }
-
   }
 
   function addScore() {
-    // slope1.
+    slope1.map(eggPos => {
+      if(eggPos >= 5 && wolfPos===0) setScore(score => score+=1)
+    })
+    slope2.map(eggPos => {
+      if(eggPos >= 5 && wolfPos===1) setScore(score => score+=1)
+    })
+    slope3.map(eggPos => {
+      if(eggPos >= 5 && wolfPos===2) setScore(score => score+=1)
+    })
+    slope4.map(eggPos => {
+      if(eggPos >= 5 && wolfPos===3) setScore(score => score+=1)
+    })
   }
 
   function removeEgg() {  //удаление скатившегося яйца из массива
-    setSlope1(slope => slope.filter(eggPos => eggPos <= 5))
-    setSlope2(slope => slope.filter(eggPos => eggPos <= 5))
-    setSlope3(slope => slope.filter(eggPos => eggPos <= 5))
-    setSlope4(slope => slope.filter(eggPos => eggPos <= 5))
+    setSlope1(slope => slope.filter(eggPos => eggPos < 5))
+    setSlope2(slope => slope.filter(eggPos => eggPos < 5))
+    setSlope3(slope => slope.filter(eggPos => eggPos < 5))
+    setSlope4(slope => slope.filter(eggPos => eggPos < 5))
   }
 
   function shuffle() {
