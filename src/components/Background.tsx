@@ -104,14 +104,6 @@ const PlankRightUpper = styled.img`
   width: 100px;
 `
 
-const GrassCenterLeft = styled.img`
-  position: absolute;
-  top: 200px;
-  left: 0px;
-  width: 100px;
-`
-
-
 const ChikenLeftUppper = styled.img`
   position: absolute;
   top: 55px;
@@ -140,6 +132,13 @@ const ChikenRightLower = styled.img`
   height: 60px;
 `
 
+const Tree = styled.img`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 60px;
+`
+
 const Background = () => {
   return (
     <>
@@ -160,8 +159,7 @@ const Background = () => {
       <PlankLeftUpper src={plankLeftUpper}/>
       <PlankRightLower src={plankRightLower}/>
       <PlankRightUpper src={plankRightUpper}/>
-
-      {/* <GrassCenterLeft src={grassCenterLeft} /> */}
+      <Tree src={tree}/>
     </>
   )
 }

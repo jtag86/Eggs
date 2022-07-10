@@ -7,30 +7,30 @@ import React from 'react'
 
 const WolfLeftUpper = styled.img`
   position: absolute;
-  top: 130px;
-  left: 110px;
-  height: 170px;
+  top: 145px;
+  left: 120px;
+  height: 140px;
 `
 
 const WolfLeftLower = styled.img`
   position: absolute;
-  top: 130px;
-  left: 110px;
-  height: 170px;
+  top: 146px;
+  left: 111px;
+  height: 140px;
 `
 
 const WolfRightUpper = styled.img`
   position: absolute;
-  top: 130px;
-  right: 110px;
-  height: 170px;
+  top: 150px;
+  right: 112px;
+  height: 140px;
 `
 
 const WolfRightLower = styled.img`
   position: absolute;
-  top: 130px;
-  right: 110px;
-  height: 170px;
+  top: 150px;
+  right: 115px;
+  height: 140px;
 `
 
 type Props = {

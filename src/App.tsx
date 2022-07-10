@@ -8,7 +8,9 @@ import EggLeftLower from './components/EggLeftLower';
 import EggRightUpper from './components/EggRightUpper';
 import EggRightLower from './components/EggRightLower';
 import { useInterval } from './hooks/useInterval';
+import { GlobalStyle } from './globalStyle';
 import { v4 } from 'uuid'
+import Display from './components/Display/Display';
 
 const StyledBoard = styled.div`
   background-color: #C4CCC1;
@@ -17,6 +19,14 @@ const StyledBoard = styled.div`
   margin: auto;
   padding: 0;
   position: relative;
+`
+const Scores = styled.p`
+  position: absolute;
+  top: 0;
+  right: 130px;
+  font-family: 'LCDDisplay';
+  font-size: 70px;
+  margin: 0;
 `
 
 const eggPos = 0
@@ -145,7 +155,9 @@ function App() {
   }
 
   function speed() {
-    if(score > 500) {
+    if(score >= 999) {
+      setScore(0)
+    } else if(score > 500) {
       setDelay(100)
     } else if(score > 400) {
       setDelay(130)
@@ -166,14 +178,18 @@ function App() {
   }
 
   return (
-    <StyledBoard>
-      <Background />
-      {slope1.map(item => <EggLeftUpper key={v4()} sprite={item} /> )}
-      {slope2.map(item => <EggLeftLower key={v4()} sprite={item} /> )}
-      {slope3.map(item => <EggRightUpper key={v4()} sprite={item} /> )}
-      {slope4.map(item => <EggRightLower key={v4()} sprite={item} /> )}
-      <Wolf sprite={wolfPos}/>
-    </StyledBoard>
+    <>
+      <StyledBoard>
+        <Background />
+        {slope1.map(item => <EggLeftUpper key={v4()} sprite={item} /> )}
+        {slope2.map(item => <EggLeftLower key={v4()} sprite={item} /> )}
+        {slope3.map(item => <EggRightUpper key={v4()} sprite={item} /> )}
+        {slope4.map(item => <EggRightLower key={v4()} sprite={item} /> )}
+        <Wolf sprite={wolfPos}/>
+        <Display value={score}/>
+      </StyledBoard>
+      <GlobalStyle />
+    </>
   );
 }
 
