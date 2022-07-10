@@ -11,6 +11,8 @@ import { useInterval } from './hooks/useInterval';
 import { GlobalStyle } from './globalStyle';
 import { v4 } from 'uuid'
 import Display from './components/Display/Display';
+import Lives from './components/Lives';
+import BreakEgg from './components/BreakEgg';
 
 const StyledBoard = styled.div`
   background-color: #C4CCC1;
@@ -20,19 +22,7 @@ const StyledBoard = styled.div`
   padding: 0;
   position: relative;
 `
-const Scores = styled.p`
-  position: absolute;
-  top: 0;
-  right: 130px;
-  font-family: 'LCDDisplay';
-  font-size: 70px;
-  margin: 0;
-`
-
 const eggPos = 0
-const timeDelay = 500
-let currentState: Function  = () => {}
-let slopeNum = 0
 
 function* generator() {
   while(1){
@@ -53,10 +43,12 @@ function App() {
   const [slope4, setSlope4] = useState<number[]>([])
   const [score, setScore] = useState(0)
   const [wolfPos, setWolfPos] = useState(0)
-  console.log("update")
+  const [lives, setLives] = useState(0)
+  const [breakEggSpriteLeft, setBreakEggSpriteLeft] = useState(10)
+  const [breakEggSpriteRight, setBreakEggSpriteRight] = useState(10)
 
   useEffect(() => { //запуск игры
-    setDelay(300)
+    setDelay(250)
     document.addEventListener("keydown", listeners);
     return () => document.removeEventListener("keydown", listeners);
   }, [])
@@ -72,11 +64,11 @@ function App() {
 
   function tick() {
     shuffle()
-    addScore()
     removeEgg()
     speed()
-    setScore(score => score+=1)
+    addScore()
     const slopeNum = gen.next().value
+    breakEgg()
     switch(slopeNum) {
       case (1):
         setSlope1(slope => slope.map(eggPos => eggPos+=1))
@@ -93,26 +85,47 @@ function App() {
     }
   }
 
+  function breakEgg() {
+    setBreakEggSpriteLeft(sprite => sprite+=1)
+    setBreakEggSpriteRight(sprite => sprite+=1)
+  }
+
   function addScore() {
     slope1.map(eggPos => {
-      if(eggPos >= 5 && wolfPos===0) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos===0) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos!==0) {
+        setBreakEggSpriteLeft(0)
+        setLives(lives => lives+=1)
+      }
     })
     slope2.map(eggPos => {
-      if(eggPos >= 5 && wolfPos===1) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos===1) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos!==1) {
+        setBreakEggSpriteLeft(0)
+        setLives(lives => lives+=1)
+      }
     })
     slope3.map(eggPos => {
-      if(eggPos >= 5 && wolfPos===2) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos===2) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos!==2) {
+        setBreakEggSpriteRight(0)
+        setLives(lives => lives+=1)
+      }
     })
     slope4.map(eggPos => {
-      if(eggPos >= 5 && wolfPos===3) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos===3) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos!==3) {
+        setBreakEggSpriteRight(0)
+        setLives(lives => lives+=1)
+      }
     })
   }
 
   function removeEgg() {  //удаление скатившегося яйца из массива
-    setSlope1(slope => slope.filter(eggPos => eggPos < 5))
-    setSlope2(slope => slope.filter(eggPos => eggPos < 5))
-    setSlope3(slope => slope.filter(eggPos => eggPos < 5))
-    setSlope4(slope => slope.filter(eggPos => eggPos < 5))
+    setSlope1(slope => slope.filter(eggPos => eggPos < 4))
+    setSlope2(slope => slope.filter(eggPos => eggPos < 4))
+    setSlope3(slope => slope.filter(eggPos => eggPos < 4))
+    setSlope4(slope => slope.filter(eggPos => eggPos < 4))
   }
 
   function shuffle() {
@@ -121,18 +134,19 @@ function App() {
     let tempArr = []
           //какой массив участвует в раздаче яиц
     if(score < 50) {
-      if((slope1.length && slope1[slope1.length-1] > 2) || slope1.length === 0 ) tempArr.push(0)
-      if((slope4.length && slope4[slope4.length-1] > 2) || slope4.length === 0 ) tempArr.push(3)
+      if((slope1.length && slope1[slope1.length-1] > 3) || slope1.length === 0 ) tempArr.push(0)
+      if((slope3.length && slope3[slope3.length-1] > 3) || slope3.length === 0 ) tempArr.push(2)
+      if((slope4.length && slope4[slope4.length-1] > 3) || slope4.length === 0 ) tempArr.push(3)
     }
     else if (score < 100) {
-      if((slope1.length && slope1[slope1.length-1] > 2) || slope1.length === 0 ) tempArr.push(0)
-      if((slope2.length && slope2[slope2.length-1] > 2) || slope2.length === 0 ) tempArr.push(1)
-      if((slope3.length && slope3[slope3.length-1] > 2) || slope3.length === 0 ) tempArr.push(2)
+      if((slope1.length && slope1[slope1.length-1] > 3) || slope1.length === 0 ) tempArr.push(0)
+      if((slope2.length && slope2[slope2.length-1] > 3) || slope2.length === 0 ) tempArr.push(1)
+      if((slope3.length && slope3[slope3.length-1] > 3) || slope3.length === 0 ) tempArr.push(2)
     } else {
-      if((slope1.length && slope1[slope1.length-1] > 2) || slope1.length === 0 ) tempArr.push(0)
-      if((slope2.length && slope2[slope2.length-1] > 2) || slope2.length === 0 ) tempArr.push(1)
-      if((slope3.length && slope3[slope3.length-1] > 2) || slope3.length === 0 ) tempArr.push(2)
-      if((slope4.length && slope4[slope4.length-1] > 2) || slope4.length === 0 ) tempArr.push(3)
+      if((slope1.length && slope1[slope1.length-1] > 3) || slope1.length === 0 ) tempArr.push(0)
+      if((slope2.length && slope2[slope2.length-1] > 3) || slope2.length === 0 ) tempArr.push(1)
+      if((slope3.length && slope3[slope3.length-1] > 3) || slope3.length === 0 ) tempArr.push(2)
+      if((slope4.length && slope4[slope4.length-1] > 3) || slope4.length === 0 ) tempArr.push(3)
     }
 
     const rand = Math.floor(Math.random() * 4)
@@ -187,6 +201,9 @@ function App() {
         {slope4.map(item => <EggRightLower key={v4()} sprite={item} /> )}
         <Wolf sprite={wolfPos}/>
         <Display value={score}/>
+        <Lives value={lives}/>
+        <BreakEgg side={0} sprite={breakEggSpriteRight}/>
+        <BreakEgg side={1} sprite={breakEggSpriteLeft}/>
       </StyledBoard>
       <GlobalStyle />
     </>

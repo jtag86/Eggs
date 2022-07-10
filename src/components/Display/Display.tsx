@@ -21,8 +21,6 @@ const Display: React.FC<Props> = ({value}) => {
   const hundred = parseInt(valueStr[0])
   const dec = parseInt(valueStr[1])
   const unit = parseInt(valueStr[2])
-  console.log(valueStr)
-
 
   return (
     <Wrapper>
