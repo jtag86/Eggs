@@ -13,15 +13,25 @@ import { v4 } from 'uuid'
 import Display from './components/Display/Display';
 import Lives from './components/Lives';
 import BreakEgg from './components/BreakEgg';
+import Bg from './assets/img/bg.png'
 
 const StyledBoard = styled.div`
   background-color: #C4CCC1;
   width: 520px;
   height: 365px;
-  margin: auto;
+  margin: 149px auto;
   padding: 0;
   position: relative;
+
 `
+
+const BgImage = styled.img`
+  position: absolute;
+  top: 0px;
+  left: 55px;
+  width: 1065px;
+`
+
 const eggPos = 0
 
 function* generator() {
@@ -134,19 +144,19 @@ function App() {
     let tempArr = []
           //какой массив участвует в раздаче яиц
     if(score < 50) {
-      if((slope1.length && slope1[slope1.length-1] > 3) || slope1.length === 0 ) tempArr.push(0)
-      if((slope3.length && slope3[slope3.length-1] > 3) || slope3.length === 0 ) tempArr.push(2)
-      if((slope4.length && slope4[slope4.length-1] > 3) || slope4.length === 0 ) tempArr.push(3)
+      if((slope1.length && slope1[slope1.length-1] > 4) || slope1.length === 0 ) tempArr.push(0)
+      if((slope3.length && slope3[slope3.length-1] > 4) || slope3.length === 0 ) tempArr.push(2)
+      if((slope4.length && slope4[slope4.length-1] > 4) || slope4.length === 0 ) tempArr.push(3)
     }
     else if (score < 100) {
-      if((slope1.length && slope1[slope1.length-1] > 3) || slope1.length === 0 ) tempArr.push(0)
-      if((slope2.length && slope2[slope2.length-1] > 3) || slope2.length === 0 ) tempArr.push(1)
-      if((slope3.length && slope3[slope3.length-1] > 3) || slope3.length === 0 ) tempArr.push(2)
+      if((slope1.length && slope1[slope1.length-1] > 4) || slope1.length === 0 ) tempArr.push(0)
+      if((slope2.length && slope2[slope2.length-1] > 4) || slope2.length === 0 ) tempArr.push(1)
+      if((slope3.length && slope3[slope3.length-1] > 4) || slope3.length === 0 ) tempArr.push(2)
     } else {
-      if((slope1.length && slope1[slope1.length-1] > 3) || slope1.length === 0 ) tempArr.push(0)
-      if((slope2.length && slope2[slope2.length-1] > 3) || slope2.length === 0 ) tempArr.push(1)
-      if((slope3.length && slope3[slope3.length-1] > 3) || slope3.length === 0 ) tempArr.push(2)
-      if((slope4.length && slope4[slope4.length-1] > 3) || slope4.length === 0 ) tempArr.push(3)
+      if((slope1.length && slope1[slope1.length-1] > 4) || slope1.length === 0 ) tempArr.push(0)
+      if((slope2.length && slope2[slope2.length-1] > 4) || slope2.length === 0 ) tempArr.push(1)
+      if((slope3.length && slope3[slope3.length-1] > 4) || slope3.length === 0 ) tempArr.push(2)
+      if((slope4.length && slope4[slope4.length-1] > 4) || slope4.length === 0 ) tempArr.push(3)
     }
 
     const rand = Math.floor(Math.random() * 4)
@@ -205,6 +215,7 @@ function App() {
         <BreakEgg side={0} sprite={breakEggSpriteRight}/>
         <BreakEgg side={1} sprite={breakEggSpriteLeft}/>
       </StyledBoard>
+      <BgImage src={Bg} />
       <GlobalStyle />
     </>
   );
