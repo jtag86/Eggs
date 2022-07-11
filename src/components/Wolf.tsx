@@ -33,13 +33,18 @@ const WolfRightLower = styled.img`
   height: 140px;
 `
 
+const Wrapper = styled.div<{show: boolean}>`
+  display: ${({show}) => show ? 'block' : 'none'}
+`
+
 type Props = {
   sprite: number,
+  show: boolean
 }
 
-const Wolf: React.FC<Props> = ({sprite}) => {
+const Wolf: React.FC<Props> = ({sprite, show}) => {
   return (
-    <>
+    <Wrapper show={show}>
       {(() => {
         switch(sprite) {
           case 0: return <WolfLeftUpper src={wolfLeftUpper} />
@@ -48,7 +53,7 @@ const Wolf: React.FC<Props> = ({sprite}) => {
           case 3: return <WolfRightLower src={wolfRightLower} />
         }
       })()}
-    </>
+    </Wrapper>
   )
 }
 

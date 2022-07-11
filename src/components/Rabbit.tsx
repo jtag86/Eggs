@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
-import RabbitImage from '../assets/img/rabbit.png'
+import rabbitImage from '../assets/img/rabbit.png'
 
 
 const StyledRabbit = styled.img<{show: boolean}>`
@@ -11,19 +11,26 @@ const StyledRabbit = styled.img<{show: boolean}>`
   display: ${({show}) => show ? 'block' : 'none'};
 `
 
+const Wrapper = styled.div<{show: boolean}>`
+  display: ${({show}) => show ? 'block' : 'none'}
+`
+
 type Props = {
-  show: boolean
+  show: boolean,
+  flash: boolean
 }
 
-const Rabbit: React.FC<Props> = ({show}) => {
+const Rabbit: React.FC<Props> = ({show, flash}) => {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    if(show === true) setVisible(!visible)
-  }, [show])
+    if(flash === true) setVisible(!visible)
+  }, [flash])
 
   return (
-    <StyledRabbit show={visible}  src={RabbitImage}/>
+    <Wrapper show={show}>
+      <StyledRabbit show={visible}  src={rabbitImage}/>
+    </Wrapper>
   )
 }
 

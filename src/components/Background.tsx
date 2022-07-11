@@ -32,7 +32,7 @@ const GrassLeftLower = styled.img`
 const GrassRightLower = styled.img`
   position: absolute;
   top: 300px;
-  right: 0px;
+  right: -10px;
   width: 100px;
 `
 
@@ -74,7 +74,7 @@ const GrassLeft = styled.img`
 const GrassRight = styled.img`
   position: absolute;
   top: 230px;
-  right: 0px;
+  right: -10px;
   width: 70px;
 `
 
@@ -95,35 +95,35 @@ const PlankLeftUpper = styled.img`
 const PlankRightLower = styled.img`
   position: absolute;
   top: 195px;
-  right: 0px;
+  right: -10px;
   width: 100px;
 `
 
 const PlankRightUpper = styled.img`
   position: absolute;
   top: 115px;
-  right: 0px;
+  right: -10px;
   width: 100px;
 `
 
 const ChikenLeftUppper = styled.img`
   position: absolute;
-  top: 55px;
+  top: 60px;
   left: 0px;
-  height: 60px;
+  height: 70px;
 `
 
 const ChikenLeftLower = styled.img`
   position: absolute;
-  top: 135px;
+  top: 140px;
   left: 0px;
-  height: 60px;
+  height: 70px;
 `
 
 const ChikenRightUpper = styled.img`
   position: absolute;
-  top: 55px;
-  right: 0px;
+  top: 65px;
+  right: -10px;
   height: 60px;
 `
 
@@ -137,7 +137,7 @@ const ChikenRightLower = styled.img`
 const Tree = styled.img`
   position: absolute;
   top: 0px;
-  right: 0px;
+  right: -15px;
   height: 60px;
 `
 
@@ -145,7 +145,7 @@ const Roof = styled.img`
   position: absolute;
   top: 0px;
   left: 0px;
-  height: 100px;
+  height: 115px;
 `
 
 

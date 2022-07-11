@@ -43,13 +43,18 @@ const Egg5 = styled.img`
   transform: rotate(-110deg);
 `
 
+const Wrapper = styled.div<{show: boolean}>`
+  display: ${({show}) => show ? 'block' : 'none'}
+`
+
 type Props = {
-  sprite: number
+  sprite: number,
+  show: boolean
 }
 
-const EggLeftUpper: React.FC<Props> = ({sprite}) => {
+const EggLeftUpper: React.FC<Props> = ({sprite, show}) => {
   return (
-    <>
+    <Wrapper show={show}>
       {(() => {
         switch(sprite) {
           case 0: return <Egg1 src={egg} />
@@ -59,7 +64,7 @@ const EggLeftUpper: React.FC<Props> = ({sprite}) => {
           case 4: return <Egg5 src={egg} />
         }
       })()}
-    </>
+    </Wrapper>
   )
 }
 

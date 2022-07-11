@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import live from '../assets/img/live.png'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{show: boolean}>`
   position: relative;
+  display: ${({show}) => show ? 'block' : 'none'}
 `
 
 const Live = styled.img<{posX: string, posY: string}>`
@@ -15,11 +16,12 @@ const Live = styled.img<{posX: string, posY: string}>`
 
 type Props = {
   value: number
+  show: boolean
 }
 
-const Lives: React.FC<Props> = ({value}) => {
+const Lives: React.FC<Props> = ({value, show}) => {
   return (
-    <Wrapper>
+    <Wrapper show={show}>
       {(() => {
         switch(value) {
           case 1: return (

@@ -9,8 +9,9 @@ import break5 from '../assets/img/breakEgg/5.png'
 import { useInterval } from '../hooks/useInterval'
 
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{show: boolean}>`
   position: relative;
+  display: ${({show}) => show ? 'block' : 'none'}
 `
 
 const BreakLeft1 = styled.img`
@@ -90,13 +91,14 @@ const BreakRight5 = styled.img`
 
 type Props = {
   sprite: number,
-  side: number
+  side: number,
+  show: boolean,
 }
 
-const BreakEgg: React.FC<Props> = ({sprite, side}) => {
+const BreakEgg: React.FC<Props> = ({sprite, side, show}) => {
 
   return (
-    <Wrapper>
+    <Wrapper show={show}>
       {
         side?
         (

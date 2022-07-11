@@ -25,21 +25,98 @@ import clapSound3 from './assets/sound/tick3.mp3'
 import clapSound4 from './assets/sound/catch.mp3'
 import breakSound from './assets/sound/break.mp3'
 
-const StyledBoard = styled.div`
+const Wrapper = styled.div`
+  position: relative;
+  margin: 0 auto;
+  width: 1050px;
+  height: 800px;
+`
+
+const BoardWrapper = styled.div`
+  position: absolute;
+  top: 149px;
+  left: 269px;
+`
+const Board = styled.div`
   background-color: #C4CCC1;
   width: 520px;
   height: 365px;
-  margin: 149px auto;
   padding: 0;
   position: relative;
-
 `
 
 const BgImage = styled.img`
   position: absolute;
-  top: -149px;
-  left: -270px;
+  top: 0px;
+  left: 0px;
   width: 1065px;
+`
+
+const StartButton = styled.div`
+  position: absolute;
+  top: -67px;
+  left: 622px;
+  width: 68px;
+  height: 42px;
+  z-index: 10;
+  border-radius: 45%;
+  &:hover {
+    border: 7px solid white
+  }
+`
+
+const LeftUpperButton = styled.div`
+  position: absolute;
+  top: 217px;
+  left: -183px;
+  width: 90px;
+  height: 90px;
+  z-index: 10;
+  border-radius: 50%;
+
+  &:hover {
+    border: 7px solid white;
+  }
+`
+
+const LeftLowerButton = styled.div`
+  position: absolute;
+  top: 342px;
+  left: -183px;
+  width: 90px;
+  height: 90px;
+  z-index: 10;
+  border-radius: 50%;
+
+  &:hover {
+    border: 7px solid white;
+  }
+`
+
+const RightUpperButton = styled.div`
+  position: absolute;
+  top: 217px;
+  right: -188px;
+  width: 90px;
+  height: 90px;
+  z-index: 10;
+  border-radius: 50%;
+  &:hover {
+    border: 7px solid white;
+  }
+`
+
+const RightLowerButton = styled.div`
+  position: absolute;
+  top: 342px;
+  right: -188px;
+  width: 90px;
+  height: 90px;
+  z-index: 10;
+  border-radius: 50%;
+  &:hover {
+    border: 7px solid white;
+  }
 `
 
 const eggPos = 0
@@ -55,8 +132,8 @@ function* generator() {
 
 let gen = generator()
 
-
 function App() {
+  const [show, setShow] = useState(false)
   const [ delay, setDelay ] = useState<number | null>(null)
   const [slope1, setSlope1] = useState<number[]>([])
   const [slope2, setSlope2] = useState<number[]>([])
@@ -74,20 +151,20 @@ function App() {
   const [tickSound3] = useSound(clapSound3)
   const [tickSound4] = useSound(clapSound4)
   const [tickSound5] = useSound(breakSound)
+  
 
   useEffect(() => { 
-    setDelay(100)
-    document.addEventListener("keydown", listeners);
-    return () => document.removeEventListener("keydown", listeners);
+    return () => document.removeEventListener("keydown", listeners, true);
   }, [])
 
   useInterval(tick, delay)  
 
   function play() {
-    setSlope1(oldArray => [...oldArray, eggPos])
-    setSlope2(oldArray => [...oldArray, eggPos])
-    setSlope3(oldArray => [...oldArray, eggPos])
-    setSlope4(oldArray => [...oldArray, eggPos])
+    setShow(true)
+    setScore(0)
+    setWolfPos(0)
+    setDelay(250)
+    document.addEventListener("keydown", listeners);
   }
 
   function tick() {
@@ -95,6 +172,7 @@ function App() {
     removeEgg()
     incTicks()
     addScore()
+    checkGameOver()
     const slopeNum = gen.next().value
     breakEgg()
     switch(slopeNum) {
@@ -124,7 +202,6 @@ function App() {
         return
     }
   }
-
 
 
   function breakEgg() {
@@ -249,23 +326,40 @@ function App() {
     else if (e.key === 'd' || e.key === 'D' || e.key === 'в' || e.key === 'В') setWolfPos(3)
   }
 
+  function checkGameOver() {
+    if(lives ===4) {
+      setLives(0)
+      setDelay(null)
+      setShow(false)
+    }
+  }
+
   return (
     <>
-      <StyledBoard>
-        <Background />
-        {slope1.map(item => <EggLeftUpper key={v4()} sprite={item} /> )}
-        {slope2.map(item => <EggLeftLower key={v4()} sprite={item} /> )}
-        {slope3.map(item => <EggRightUpper key={v4()} sprite={item} /> )}
-        {slope4.map(item => <EggRightLower key={v4()} sprite={item} /> )}
-        <Wolf sprite={wolfPos}/>
-        <Display value={score}/>
-        <Lives value={lives}/>
-        <BreakEgg side={0} sprite={breakEggSpriteRight}/>
-        <BreakEgg side={1} sprite={breakEggSpriteLeft}/>
-        <BgImage src={Bg} />
-        <Rabbit show={Math.random() < 0.1}/>
-      </StyledBoard>
-      <GlobalStyle />
+    <Wrapper>
+      <BoardWrapper>
+        <Board>
+          <Background />
+          {slope1.map(item => <EggLeftUpper show={show} key={v4()} sprite={item} /> )}
+          {slope2.map(item => <EggLeftLower show={show} key={v4()} sprite={item} /> )}
+          {slope3.map(item => <EggRightUpper show={show} key={v4()} sprite={item} /> )}
+          {slope4.map(item => <EggRightLower  show={show} key={v4()} sprite={item} /> )}
+          <Wolf show={show} sprite={wolfPos}/>
+          <Display show={true} value={score}/>
+          <Lives show={show}value={lives}/>
+          <BreakEgg show={show} side={0} sprite={breakEggSpriteRight}/>
+          <BreakEgg show={show} side={1} sprite={breakEggSpriteLeft}/>
+          <Rabbit show={show} flash={Math.random() < 0.1} />
+          <StartButton onClick={play}/>
+          <LeftUpperButton onClick={() =>setWolfPos(0)} />
+          <LeftLowerButton onClick={() =>setWolfPos(1)}/>
+          <RightUpperButton onClick={() =>setWolfPos(2)}/>
+          <RightLowerButton onClick={() =>setWolfPos(3)}/>
+        </Board>
+      </BoardWrapper>
+      <BgImage src={Bg} />
+    </Wrapper>
+    <GlobalStyle />
     </>
   );
 }
