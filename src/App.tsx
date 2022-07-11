@@ -27,8 +27,8 @@ const StyledBoard = styled.div`
 
 const BgImage = styled.img`
   position: absolute;
-  top: 0px;
-  left: 55px;
+  top: -149px;
+  left: -270px;
   width: 1065px;
 `
 
@@ -214,8 +214,8 @@ function App() {
         <Lives value={lives}/>
         <BreakEgg side={0} sprite={breakEggSpriteRight}/>
         <BreakEgg side={1} sprite={breakEggSpriteLeft}/>
+        <BgImage src={Bg} />
       </StyledBoard>
-      <BgImage src={Bg} />
       <GlobalStyle />
     </>
   );

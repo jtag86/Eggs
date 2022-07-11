@@ -20,6 +20,8 @@ import chickenLeftLower from '../assets/img/chickenLeftLower.png'
 import chickenRightUpper from '../assets/img/chickenRightUpper.png'
 import chickenRightLower from '../assets/img/chickenRightLower.png'
 
+import roof from '../assets/img/roof.png'
+
 const GrassLeftLower = styled.img`
   position: absolute;
   top: 300px;
@@ -36,28 +38,28 @@ const GrassRightLower = styled.img`
 
 const GrassCenterLeftUpper = styled.img`
   position: absolute;
-  top: 310px;
+  top: 290px;
   left: 140px;
   width: 70px;
 `
 
 const GrassCenterLeftLower = styled.img`
   position: absolute;
-  top: 330px;
+  top: 310px;
   left: 170px;
   width: 70px;
 `
 
 const GrassCenterRightUpper = styled.img`
   position: absolute;
-  top: 310px;
+  top: 290px;
   right: 140px;
   width: 70px;
 `
 
 const GrassCenterRightLower = styled.img`
   position: absolute;
-  top: 330px;
+  top: 310px;
   right: 170px;
   width: 70px;
 `
@@ -139,6 +141,14 @@ const Tree = styled.img`
   height: 60px;
 `
 
+const Roof = styled.img`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100px;
+`
+
+
 const Background = () => {
   return (
     <>
@@ -160,6 +170,7 @@ const Background = () => {
       <PlankRightLower src={plankRightLower}/>
       <PlankRightUpper src={plankRightUpper}/>
       <Tree src={tree}/>
+      <Roof src={roof}/>
     </>
   )
 }
