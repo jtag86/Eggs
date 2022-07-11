@@ -60,9 +60,6 @@ const StartButton = styled.div`
   height: 42px;
   z-index: 10;
   border-radius: 45%;
-  &:hover {
-    border: 7px solid white
-  }
 `
 
 const LeftUpperButton = styled.div`
