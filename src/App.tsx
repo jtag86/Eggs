@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/macro'
+import useSound from 'use-sound';
+
 
 import Wolf from './components/Wolf';
 import Background from './components/Background';
@@ -14,6 +16,14 @@ import Display from './components/Display/Display';
 import Lives from './components/Lives';
 import BreakEgg from './components/BreakEgg';
 import Bg from './assets/img/bg.png'
+import Rabbit from './components/Rabbit';
+
+import clapSound from './assets/sound/tick.mp3'
+import clapSound1 from './assets/sound/tick1.mp3'
+import clapSound2 from './assets/sound/tick2.mp3'
+import clapSound3 from './assets/sound/tick3.mp3'
+import clapSound4 from './assets/sound/catch.mp3'
+import breakSound from './assets/sound/break.mp3'
 
 const StyledBoard = styled.div`
   background-color: #C4CCC1;
@@ -45,6 +55,7 @@ function* generator() {
 
 let gen = generator()
 
+
 function App() {
   const [ delay, setDelay ] = useState<number | null>(null)
   const [slope1, setSlope1] = useState<number[]>([])
@@ -57,13 +68,20 @@ function App() {
   const [breakEggSpriteLeft, setBreakEggSpriteLeft] = useState(10)
   const [breakEggSpriteRight, setBreakEggSpriteRight] = useState(10)
 
-  useEffect(() => { //запуск игры
-    setDelay(250)
+  const [tickSound] = useSound(clapSound)
+  const [tickSound1] = useSound(clapSound1)
+  const [tickSound2] = useSound(clapSound2)
+  const [tickSound3] = useSound(clapSound3)
+  const [tickSound4] = useSound(clapSound4)
+  const [tickSound5] = useSound(breakSound)
+
+  useEffect(() => { 
+    setDelay(100)
     document.addEventListener("keydown", listeners);
     return () => document.removeEventListener("keydown", listeners);
   }, [])
 
-  useInterval(tick, delay)  //обновление игрового поля
+  useInterval(tick, delay)  
 
   function play() {
     setSlope1(oldArray => [...oldArray, eggPos])
@@ -75,25 +93,39 @@ function App() {
   function tick() {
     shuffle()
     removeEgg()
-    speed()
+    incTicks()
     addScore()
     const slopeNum = gen.next().value
     breakEgg()
     switch(slopeNum) {
       case (1):
-        setSlope1(slope => slope.map(eggPos => eggPos+=1))
+        if(slope1.length) {
+          setSlope1(slope => slope.map(eggPos => eggPos+=1))
+          tickSound1()
+        }
         return
       case (2):
-        setSlope2(slope => slope.map(eggPos => eggPos+=1))
+        if(slope2.length) {
+          setSlope2(slope => slope.map(eggPos => eggPos+=1))
+          tickSound2()
+        }
         return
       case (3):
-        setSlope3(slope => slope.map(eggPos => eggPos+=1))
+        if(slope3.length) {
+          setSlope3(slope => slope.map(eggPos => eggPos+=1))
+          tickSound()
+        }
         return
       case (4):
-        setSlope4(slope => slope.map(eggPos => eggPos+=1))
+        if(slope4.length) {
+          setSlope4(slope => slope.map(eggPos => eggPos+=1))
+          tickSound3()
+        }
         return
     }
   }
+
+
 
   function breakEgg() {
     setBreakEggSpriteLeft(sprite => sprite+=1)
@@ -102,31 +134,47 @@ function App() {
 
   function addScore() {
     slope1.map(eggPos => {
-      if(eggPos >= 4 && wolfPos===0) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos===0) {
+        setScore(score => score+=1)
+        tickSound4()
+      }
       if(eggPos >= 4 && wolfPos!==0) {
         setBreakEggSpriteLeft(0)
         setLives(lives => lives+=1)
+        tickSound5()
       }
     })
     slope2.map(eggPos => {
-      if(eggPos >= 4 && wolfPos===1) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos===1) {
+        setScore(score => score+=1)
+        tickSound4()
+      }
       if(eggPos >= 4 && wolfPos!==1) {
         setBreakEggSpriteLeft(0)
         setLives(lives => lives+=1)
+        tickSound5()
       }
     })
     slope3.map(eggPos => {
-      if(eggPos >= 4 && wolfPos===2) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos===2) {
+        setScore(score => score+=1)
+        tickSound4()
+      }
       if(eggPos >= 4 && wolfPos!==2) {
         setBreakEggSpriteRight(0)
         setLives(lives => lives+=1)
+        tickSound5()
       }
     })
     slope4.map(eggPos => {
-      if(eggPos >= 4 && wolfPos===3) setScore(score => score+=1)
+      if(eggPos >= 4 && wolfPos===3) {
+        setScore(score => score+=1)
+        tickSound4()
+      }
       if(eggPos >= 4 && wolfPos!==3) {
         setBreakEggSpriteRight(0)
         setLives(lives => lives+=1)
+        tickSound5()
       }
     })
   }
@@ -178,7 +226,7 @@ function App() {
     }
   }
 
-  function speed() {
+  function incTicks() {
     if(score >= 999) {
       setScore(0)
     } else if(score > 500) {
@@ -190,7 +238,7 @@ function App() {
     } else if(score > 200) {
       setDelay(200)
     } else if(score > 50) {
-      setDelay(250)
+      setDelay(200)
     }
   }
 
@@ -215,6 +263,7 @@ function App() {
         <BreakEgg side={0} sprite={breakEggSpriteRight}/>
         <BreakEgg side={1} sprite={breakEggSpriteLeft}/>
         <BgImage src={Bg} />
+        <Rabbit show={Math.random() < 0.1}/>
       </StyledBoard>
       <GlobalStyle />
     </>
