@@ -28,7 +28,7 @@ import breakSound from './assets/sound/break.mp3'
 const Wrapper = styled.div`
   position: relative;
   margin: 0 auto;
-  width: 1050px;
+  width: 100%;
   height: 800px;
 `
 
